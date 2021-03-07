@@ -15,6 +15,12 @@ class Main implements Callable<Integer>
         return null;
     }
 
+    @Command(name = "serve", description = "Not yet specified")
+    void serveMethod()
+    {
+        //Not implemented yet
+    }
+
     public static void main( String[] args )
     {
         int exitCode = new CommandLine(new Main()).execute(args);
