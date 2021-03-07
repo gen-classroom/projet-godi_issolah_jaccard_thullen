@@ -10,6 +10,11 @@ import java.util.concurrent.Callable;
 @Command(name = "gen", mixinStandardHelpOptions = true, version = "gen 1.0", description = "Projet de génie logiciel", subcommands = {})
 class Main implements Callable<Integer>
 {
+    @Command(name = "new", description = "not yet specified")
+    void newMethod(){
+        // //Not implemented yet
+    }
+
     @Override
     public Integer call() throws Exception {
         return null;
