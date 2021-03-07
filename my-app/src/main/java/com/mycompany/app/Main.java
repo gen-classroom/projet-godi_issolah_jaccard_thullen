@@ -8,6 +8,15 @@ import picocli.CommandLine.Parameters;
 import java.util.concurrent.Callable;
 
 @Command(name = "gen", mixinStandardHelpOptions = true, version = "gen 1.0", description = "Projet de génie logiciel", subcommands = {})
+
+
+@Command(name = "build", description = "Build the project")
+void buildMethod()
+{
+
+}
+
+
 class Main implements Callable<Integer>
 {
     @Override
