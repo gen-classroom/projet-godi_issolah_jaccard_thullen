@@ -9,10 +9,6 @@ import java.util.concurrent.Callable;
 
 @Command(name = "gen", mixinStandardHelpOptions = true, version = "gen 1.0", description = "Projet de génie logiciel", subcommands = {})
 
-
-
-
-
 class Main implements Callable<Integer>
 {
     @Override
