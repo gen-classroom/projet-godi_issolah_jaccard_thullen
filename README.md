@@ -13,8 +13,11 @@ Les métadonnées avant le séparateur `---` sont saisies au format YAML.
 Les métadonnées disponibles sont :
 
 `titre` : le titre de la page
+
 `auteur` : l'auteur de la page
+
 `date` : la date de publication de la page
+
 `tags` : une liste de tags associés à cette page
 
 Le contenu est saisi au format markdown.
