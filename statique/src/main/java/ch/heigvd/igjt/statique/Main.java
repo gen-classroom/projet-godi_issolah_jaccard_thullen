@@ -1,6 +1,6 @@
-package com.mycompany.app;
+package ch.heigvd.igjt;
 
-import com.mycompany.app.subcommands.SubCommandBuild;
+import ch.h
 import com.mycompany.app.subcommands.SubCommandClean;
 import com.mycompany.app.subcommands.SubCommandNew;
 import com.mycompany.app.subcommands.SubCommandServe;

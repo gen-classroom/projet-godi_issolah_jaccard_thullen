@@ -1,11 +1,11 @@
-package com.mycompany.app.subcommands;
+package ch.heigvd.igjt.subcommands;
 
 import picocli.CommandLine;
 
 import java.util.concurrent.Callable;
 
-@CommandLine.Command(name = "new")
-public class SubCommandNew implements Callable<Integer> {
+@CommandLine.Command(name = "clean")
+public class SubCommandClean implements Callable<Integer> {
     @Override
     public Integer call() throws Exception {
         return null;

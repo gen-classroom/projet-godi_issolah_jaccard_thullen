@@ -1,4 +1,4 @@
-package com.mycompany.app;
+package ch.heigvd.igjt.statique;
 
 import static org.junit.Assert.assertTrue;
 
