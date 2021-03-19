@@ -1,12 +1,13 @@
 package ch.heigvd.igjt.statique;
 
 import ch.heigvd.igjt.statique.subcommands.*;
+
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
 import java.util.concurrent.Callable;
 
-@Command(name = "statique", mixinStandardHelpOptions = true, version = "gen 1.0", description = "Projet de génie logiciel", subcommands = {SubCommandClean.class, SubCommandBuild.class, SubCommandServe.class, SubCommandNew.class, SubCommandInit.class})
+@Command(name = "statique", mixinStandardHelpOptions = true, version = "gen 1.0", description = "Projet de génie logiciel", subcommands = {SubCommandClean.class, SubCommandBuild.class, SubCommandServe.class, SubCommandNew.class})
 
 class Main implements Callable<Integer>
 {
