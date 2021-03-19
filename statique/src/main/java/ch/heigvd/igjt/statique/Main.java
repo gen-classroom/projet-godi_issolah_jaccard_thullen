@@ -1,9 +1,9 @@
-package com.mycompany.app;
+package ch.heigvd.igjt.statique;
 
-import com.mycompany.app.subcommands.SubCommandBuild;
-import com.mycompany.app.subcommands.SubCommandClean;
-import com.mycompany.app.subcommands.SubCommandNew;
-import com.mycompany.app.subcommands.SubCommandServe;
+import ch.heigvd.igjt.statique.subcommands.SubCommandBuild;
+import ch.heigvd.igjt.statique.subcommands.SubCommandClean;
+import ch.heigvd.igjt.statique.subcommands.SubCommandNew;
+import ch.heigvd.igjt.statique.subcommands.SubCommandServe;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
