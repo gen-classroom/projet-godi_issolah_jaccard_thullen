@@ -1,4 +1,4 @@
-package ch.heigvd.igjt.statique;
+package java.ch.heigvd.igjt.statique;
 
 import static org.junit.Assert.assertTrue;
 
