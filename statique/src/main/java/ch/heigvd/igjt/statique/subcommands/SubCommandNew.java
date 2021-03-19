@@ -1,4 +1,4 @@
-package ch.heigvd.igjt.subcommands;
+package ch.heigvd.igjt.statique.subcommands;
 
 import picocli.CommandLine;
 
