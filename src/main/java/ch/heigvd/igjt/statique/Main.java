@@ -1,9 +1,9 @@
 package ch.heigvd.igjt.statique;
 
 import ch.heigvd.igjt.statique.subcommands.SubCommandBuild;
-import ch.heigvd.igjt.statique.subcommands.SubCommandClean;
-import ch.heigvd.igjt.statique.subcommands.SubCommandNew;
-import ch.heigvd.igjt.statique.subcommands.SubCommandServe;
+import java.ch.heigvd.igjt.statique.subcommands.SubCommandClean;
+import java.ch.heigvd.igjt.statique.subcommands.SubCommandNew;
+import java.ch.heigvd.igjt.statique.subcommands.SubCommandServe;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
