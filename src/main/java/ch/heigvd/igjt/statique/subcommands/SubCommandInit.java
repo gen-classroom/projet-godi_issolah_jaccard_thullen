@@ -11,7 +11,11 @@ public class SubCommandInit implements Callable<Integer> {
     @CommandLine.Parameters(index="0") String path;
     @Override
     public Integer call() throws Exception {
+        mkDirs(path);
+        return 0;
+    }
+
+    private void mkDirs(String path) {
         new File(path).mkdirs();
-        return null;
     }
 }
