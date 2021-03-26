@@ -45,10 +45,6 @@ public class CleanTest
 
         String[] args = {rootDirectory};
         SubCommandClean params = CommandLine.populateCommand(new SubCommandClean(), args);
-        if(params.call() == 0){
-            assertTrue(false);
-        }else{
-            assertTrue(true);
-        }
+        assertTrue(params.call() == -1);
     }
 }
