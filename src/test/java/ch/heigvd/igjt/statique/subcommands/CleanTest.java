@@ -37,4 +37,14 @@ public class CleanTest
 
         assertTrue(!test);
     }
+
+    @Test
+    public void VerifyIfTheFolderDoesntExist() throws Exception {
+        String rootDirectory = "mon/site/";
+        new File(rootDirectory).mkdirs();
+
+        String[] args = {rootDirectory};
+        SubCommandClean params = CommandLine.populateCommand(new SubCommandClean(), args);
+        assertTrue(params.call() == -1);
+    }
 }
