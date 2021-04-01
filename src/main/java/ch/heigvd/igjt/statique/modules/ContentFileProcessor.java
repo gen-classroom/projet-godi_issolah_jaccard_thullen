@@ -16,23 +16,23 @@ public class ContentFileProcessor {
 
     static String process(InputStream is) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        String output = "", yaml = "", md = "";
-        boolean yamlPart = true;
+        String output = "", metaDatas = "", pageData = "";
+        boolean metaSection = true;
         String line;
 
         while((line = reader.readLine()) != null){
             if (line.equals("---"))
-                yamlPart = false;
+                metaSection = false;
             else {
-                if (!yamlPart)
-                    md += line;
+                if (!metaSection)
+                    pageData += line;
                 else
-                    yaml += line;
+                    metaDatas += line;
             }
         }
 
-        // output += YamlProcessor.
-        output += MarkdownProcessor.compileToHtml(md);
+        // YAML ignored for now
+        output += MarkdownProcessor.compileToHtml(pageData);
         return output;
     }
 }
