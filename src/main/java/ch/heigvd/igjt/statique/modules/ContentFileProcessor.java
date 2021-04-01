@@ -9,5 +9,30 @@ package ch.heigvd.igjt.statique.modules;
 *   Depending on interaction with DirTreeProcessor, returns the HTML as a string or dumps it into a html file
 */
 
+
+import java.io.*;
+
 public class ContentFileProcessor {
+
+    static String process(InputStream is) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        String output = "", yaml = "", md = "";
+        boolean yamlPart = true;
+        String line;
+
+        while((line = reader.readLine()) != null){
+            if (line.equals("---"))
+                yamlPart = false;
+            else {
+                if (!yamlPart)
+                    md += line;
+                else
+                    yaml += line;
+            }
+        }
+
+        // output += YamlProcessor.
+        output += MarkdownProcessor.compileToHtml(md);
+        return output;
+    }
 }
