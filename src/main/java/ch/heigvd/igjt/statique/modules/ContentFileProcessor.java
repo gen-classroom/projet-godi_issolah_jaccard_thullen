@@ -30,7 +30,7 @@ public class ContentFileProcessor {
                     yaml += line;
             }
         }
-        
+
         // output += YamlProcessor.
         output += MarkdownProcessor.compileToHtml(md);
         return output;
