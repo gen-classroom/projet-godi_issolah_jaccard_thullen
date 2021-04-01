@@ -1,5 +1,6 @@
 package ch.heigvd.igjt.statique.data;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -10,7 +11,7 @@ public class ArticleHeader {
     private String titre;
     private String auteur;
     private Date date;
-    private List<String> tags;
+    private List<String> tags = new ArrayList<>();
 
     public String getTitre() {
         return titre;
