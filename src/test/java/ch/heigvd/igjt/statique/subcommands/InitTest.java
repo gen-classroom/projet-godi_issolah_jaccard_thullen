@@ -1,14 +1,18 @@
 package ch.heigvd.igjt.statique.subcommands;
 
+import ch.heigvd.igjt.statique.data.ArticleHeader;
+import ch.heigvd.igjt.statique.data.SiteConfig;
 import org.junit.Test;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.nio.file.Files;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import org.apache.commons.io.FileUtils;
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.nodes.Tag;
 import picocli.CommandLine;
 
 import static org.junit.Assert.assertTrue;
@@ -46,8 +50,13 @@ public class InitTest {
         FileUtils.deleteDirectory(new File(TEMP_DIR));
         new File(TEST_DIR).mkdirs();
         File expectedConfigFile = new File(TEMP_DIR + "config.expected.yaml");
-        OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(expectedConfigFile));
-        writer.write("titre: Mon site\ndomaine: mon-site.ch\ndescription: Ici c'est mon site!\n");
+        FileWriter writer = new FileWriter(expectedConfigFile);
+        SiteConfig siteConfig = new SiteConfig();
+        siteConfig.setTitre("Mon site");
+        siteConfig.setDomaine("mon-site.ch");
+        siteConfig.setDescription("Ici c'est mon site!");
+        Yaml yaml = new Yaml();
+        writer.write(yaml.dumpAs(siteConfig, Tag.MAP, DumperOptions.FlowStyle.BLOCK));
         writer.close();
         String[] args = {SITE_PATH};
         SubCommandInit params = CommandLine.populateCommand(new SubCommandInit(), args);
@@ -72,10 +81,22 @@ public class InitTest {
         FileUtils.deleteDirectory(new File(TEMP_DIR));
         new File(TEST_DIR).mkdirs();
         File expectedIndexFile = new File(TEMP_DIR + "index.expected.md");
-        OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(expectedIndexFile));
-        writer.write("titre: La première page de mon site !\nauteur: Bilbon Sacquet\ndate: 2021-03-23" +
-                "\ntags: [anneau, précieux]\n---" +
-                "\nLe contenu de ma première page");
+        Yaml yaml = new Yaml();
+        FileWriter writer = new FileWriter(expectedIndexFile);
+        ArticleHeader header = new ArticleHeader();
+        header.setTitre("La première page de mon site !");
+        header.setAuteur("Bilbon Sacquet");
+        try {
+            SimpleDateFormat dateParser = new SimpleDateFormat("yyyy-MM-dd");
+            header.setDate(dateParser.parse("2021-03-23"));
+        } catch (ParseException e) {
+            System.out.println("Could not parse date: " + e.getMessage());
+        }
+        header.getTags().add("anneau");
+        header.getTags().add("précieux");
+        writer.write(yaml.dumpAs(header, Tag.MAP, DumperOptions.FlowStyle.BLOCK));
+        writer.write("---" +
+                "\nLe contenu de ma première page\n");
         writer.close();
         String[] args = {SITE_PATH};
         SubCommandInit params = CommandLine.populateCommand(new SubCommandInit(), args);
