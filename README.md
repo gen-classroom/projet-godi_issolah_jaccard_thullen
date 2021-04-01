@@ -37,3 +37,12 @@ tags:
 Le contenu de mon article.
 ![Une image](./image.png)
 ``
+## Installation
+
+### Création de l'exécutable
+
+Lancer "mvn clean package"
+
+### Exécution
+
+lancer avec "java -jar nomProgramme"
