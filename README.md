@@ -36,7 +36,8 @@ tags:
 ## Mon sous-titre
 Le contenu de mon article.
 ![Une image](./image.png)
-``
+```
+
 ## Installation
 
 ### Création de l'exécutable
