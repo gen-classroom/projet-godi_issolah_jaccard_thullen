@@ -25,9 +25,9 @@ public class ContentFileProcessor {
                 metaSection = false;
             else {
                 if (!metaSection)
-                    pageData += line;
+                    pageData += line + "\n";
                 else
-                    metaDatas += line;
+                    metaDatas += line+ "\n";
             }
         }
 
