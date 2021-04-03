@@ -6,7 +6,7 @@ import picocli.CommandLine;
 
 import static org.junit.Assert.assertEquals;
 
-public class versionTest {
+public class VersionTest {
     //private Object SubCommandVersion;
 
     @Test
