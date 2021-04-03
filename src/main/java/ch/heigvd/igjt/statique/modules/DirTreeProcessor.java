@@ -13,14 +13,18 @@ import org.apache.commons.io.FilenameUtils;
 import java.io.*;
 
 public class DirTreeProcessor {
-    private String mainPath = "";
+    private String mainPath;
 
-    void build(String path) throws IOException {
-        File sourceFile = new File(path);
+    public DirTreeProcessor(String mainPath)
+    {
+        this.mainPath = mainPath;
+    }
 
-        mainPath = path;
+    public void build() throws IOException {
+        File sourceFile = new File(mainPath);
 
         File build = new File(mainPath + "/build");
+
         build.mkdir();
 
         buildFiles(sourceFile);
@@ -41,14 +45,14 @@ public class DirTreeProcessor {
 
             File newFile = new File(mainPath + "/build/" + FilenameUtils.removeExtension(sourceFile.getPath()) + ".html");
             if (!newFile.exists()) {
-                if (newFile.mkdirs()) {
 
-                }
-                if (newFile.createNewFile()) {
-                    OutputStream os = new FileOutputStream(newFile);
-                    os.write(html.getBytes());
-                    os.flush();
-                }
+                new File(mainPath + "/build/" + sourceFile.getParent()).mkdirs();
+
+                newFile.createNewFile();
+                OutputStream os = new FileOutputStream(newFile);
+                os.write(html.getBytes());
+                os.flush();
+
             } else {
                 newFile.delete();
                 newFile.createNewFile();
