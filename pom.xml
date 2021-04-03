@@ -8,6 +8,13 @@
   <artifactId>statique</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 
+  <scm>
+    <url>https://github.com/gen-classroom/projet-godi_issolah_jaccard_thullen</url> <!-- URL HTTP de clone do projeto -->
+    <connection>scm:git:@{scm:url}</connection> <!-- URL HTTP de clone do projeto -->
+    <developerConnection>scm:git:@{scm:url}</developerConnection> <!-- URL HTTP de clone do projeto -->
+    <tag>@{project.version}</tag>
+  </scm>
+
   <properties>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
@@ -44,6 +51,15 @@
           </execution>
         </executions>
       </plugin>
+
+      <plugin>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5.2</version>
+        <configuration>
+          <tagNameFormat>@{project.version}</tagNameFormat>
+        </configuration>
+      </plugin>
+
     </plugins>
   </build>
 
