@@ -2,6 +2,7 @@ package ch.heigvd.igjt.statique.subcommands;
 
 import static org.junit.Assert.assertTrue;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
 import java.io.File;
@@ -14,12 +15,25 @@ import picocli.CommandLine;
  */
 public class CleanTest
 {
-    /**
-     * Rigorous Test :-)
-     */
+    static private String TEMP_DIR = "./target/tmp/";
+    static private String SITE_PATH = TEMP_DIR + "mon/site/";
+
+    @Test
+    public void VerifyIfTheFolderDoesntExist() throws Exception {
+        FileUtils.deleteDirectory(new File(TEMP_DIR));
+        String rootDirectory = SITE_PATH;
+        new File(rootDirectory).mkdirs();
+
+        String[] args = {rootDirectory};
+        SubCommandClean params = CommandLine.populateCommand(new SubCommandClean(), args);
+        assertTrue(params.call() == -1);
+    }
+
+
     @Test
     public void VerifyIfTheFolderIsDelete() throws Exception {
-        String rootDirectory = "mon/site/";
+        FileUtils.deleteDirectory(new File(TEMP_DIR));
+        String rootDirectory = SITE_PATH;
         new File(rootDirectory).mkdirs();
 
         String dirBuild = rootDirectory + "/build";
@@ -38,13 +52,5 @@ public class CleanTest
         assertTrue(!test);
     }
 
-    @Test
-    public void VerifyIfTheFolderDoesntExist() throws Exception {
-        String rootDirectory = "mon/site/";
-        new File(rootDirectory).mkdirs();
 
-        String[] args = {rootDirectory};
-        SubCommandClean params = CommandLine.populateCommand(new SubCommandClean(), args);
-        assertTrue(params.call() == -1);
-    }
 }
