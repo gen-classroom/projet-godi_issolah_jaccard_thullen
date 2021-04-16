@@ -23,32 +23,18 @@ public class InitTest {
     static private String TEST_DIR = TEMP_DIR + "test_site/";
     static private String SITE_PATH = TEST_DIR + "mon/site/";
 
-    @Test
-    public void shouldCreateCorrectDirectoryTree() throws Exception {
+    public static void resetTempDir() throws IOException {
         FileUtils.deleteDirectory(new File(TEMP_DIR));
         new File(TEST_DIR).mkdirs();
+    }
+
+    public static void callInit() {
         String[] args = {SITE_PATH};
         SubCommandInit params = CommandLine.populateCommand(new SubCommandInit(), args);
         params.call();
-        File newSite = new File(SITE_PATH);
-        assertTrue(Files.exists(newSite.toPath()));
     }
 
-    @Test
-    public void shouldCreateConfigFile() throws Exception {
-        FileUtils.deleteDirectory(new File(TEMP_DIR));
-        new File(TEST_DIR).mkdirs();
-        String[] args = {SITE_PATH};
-        SubCommandInit params = CommandLine.populateCommand(new SubCommandInit(), args);
-        params.call();
-        File configFile = new File(SITE_PATH + "config.yaml");
-        assertTrue(Files.exists(configFile.toPath()));
-    }
-
-    @Test
-    public void configFileContentsShouldBeCorrect() throws Exception {
-        FileUtils.deleteDirectory(new File(TEMP_DIR));
-        new File(TEST_DIR).mkdirs();
+    public static File writeExpectedSiteConfig() throws IOException {
         File expectedConfigFile = new File(TEMP_DIR + "config.expected.yaml");
         FileWriter writer = new FileWriter(expectedConfigFile);
         SiteConfig siteConfig = new SiteConfig();
@@ -58,28 +44,10 @@ public class InitTest {
         Yaml yaml = new Yaml();
         writer.write(yaml.dumpAs(siteConfig, Tag.MAP, DumperOptions.FlowStyle.BLOCK));
         writer.close();
-        String[] args = {SITE_PATH};
-        SubCommandInit params = CommandLine.populateCommand(new SubCommandInit(), args);
-        params.call();
-        File configFile = new File(SITE_PATH + "config.yaml");
-        assertTrue(FileUtils.contentEquals(expectedConfigFile, configFile));
+        return expectedConfigFile;
     }
 
-    @Test
-    public void shouldCreateIndexFile() throws Exception {
-        FileUtils.deleteDirectory(new File(TEMP_DIR));
-        new File(TEST_DIR).mkdirs();
-        String[] args = {SITE_PATH};
-        SubCommandInit params = CommandLine.populateCommand(new SubCommandInit(), args);
-        params.call();
-        File indexFile = new File(SITE_PATH + "index.md");
-        assertTrue(Files.exists(indexFile.toPath()));
-    }
-
-    @Test
-    public void indexFileContentsShouldBeCorrect() throws Exception {
-        FileUtils.deleteDirectory(new File(TEMP_DIR));
-        new File(TEST_DIR).mkdirs();
+    public static File writeExpectedIndexFile() throws IOException {
         File expectedIndexFile = new File(TEMP_DIR + "index.expected.md");
         Yaml yaml = new Yaml();
         FileWriter writer = new FileWriter(expectedIndexFile);
@@ -98,9 +66,47 @@ public class InitTest {
         writer.write("---" +
                 "\nLe contenu de ma première page\n");
         writer.close();
-        String[] args = {SITE_PATH};
-        SubCommandInit params = CommandLine.populateCommand(new SubCommandInit(), args);
-        params.call();
+        return expectedIndexFile;
+    }
+
+    @Test
+    public void shouldCreateCorrectDirectoryTree() throws Exception {
+        resetTempDir();
+        callInit();
+        File newSite = new File(SITE_PATH);
+        assertTrue(Files.exists(newSite.toPath()));
+    }
+
+    @Test
+    public void shouldCreateConfigFile() throws Exception {
+        resetTempDir();
+        callInit();
+        File configFile = new File(SITE_PATH + "config.yaml");
+        assertTrue(Files.exists(configFile.toPath()));
+    }
+
+    @Test
+    public void configFileContentsShouldBeCorrect() throws Exception {
+        resetTempDir();
+        File expectedConfigFile =  writeExpectedSiteConfig();
+        callInit();
+        File configFile = new File(SITE_PATH + "config.yaml");
+        assertTrue(FileUtils.contentEquals(expectedConfigFile, configFile));
+    }
+
+    @Test
+    public void shouldCreateIndexFile() throws Exception {
+        resetTempDir();
+        callInit();
+        File indexFile = new File(SITE_PATH + "index.md");
+        assertTrue(Files.exists(indexFile.toPath()));
+    }
+
+    @Test
+    public void indexFileContentsShouldBeCorrect() throws Exception {
+        resetTempDir();
+        File expectedIndexFile = writeExpectedIndexFile();
+        callInit();
         File indexFile = new File(SITE_PATH + "index.md");
         assertTrue(FileUtils.contentEquals(expectedIndexFile, indexFile));
     }
