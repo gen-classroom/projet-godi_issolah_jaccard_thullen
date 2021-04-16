@@ -38,6 +38,10 @@ Le contenu de mon article.
 ![Une image](./image.png)
 ```
 
+## Workflow du Template Engine
+
+![](pics/Template_workflow.png)
+
 ## Installation
 
 ### Création de l'exécutable
