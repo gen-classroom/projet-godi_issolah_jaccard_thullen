@@ -44,6 +44,10 @@ Le contenu de mon article.
 
 ![](pics/Template_workflow.png)
 
+## Diagramme de classe & diagramme de séquence
+
+![](pics/class_diagram.png)
+
 ## Installation
 
 ### Création de l'exécutable
