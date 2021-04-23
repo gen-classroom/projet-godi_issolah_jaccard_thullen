@@ -6,6 +6,8 @@ Format de fichier pour la configuration du site : YAML
 
 Format de fichier pour le contenu : markdown
 
+**[Lien vers le rapport](https://github.com/gen-classroom/rapport-godi_issolah_jaccard_vison)**
+
 ## Structure d'une page
 
 Les métadonnées avant le séparateur `---` sont saisies au format YAML.
