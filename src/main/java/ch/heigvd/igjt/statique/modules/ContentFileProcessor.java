@@ -14,7 +14,7 @@ import java.io.*;
 
 public class ContentFileProcessor {
 
-    static String process(InputStream is) throws IOException {
+    public static String process(InputStream is) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         String output = "", metaDatas = "", pageData = "";
         boolean metaSection = true;
