@@ -35,5 +35,31 @@ public class ContentFileProcessorTest {
 
         assertEquals(expected, result);
     }
+
+    @Test
+    public void yamlHeaderTest() throws IOException {
+        String virtualPage = "titre: Mon premier article\n" +
+                "auteur: Bertil Chapuis\n" +
+                "date: 2021-03-10\n" +
+                "tags:\n" +
+                "  - cooking\n" +
+                "  - travel\n" +
+                "---\n" +
+                "# Mon premier article\n" +
+                "## Mon sous-titre\n" +
+                " This is a paragraph with a [LINK](www.google.com) inside. It also contains *italic* and **bold** text";
+
+        InputStream is = new ByteArrayInputStream(virtualPage.getBytes());
+        ContentFileProcessor cfp = new ContentFileProcessor();
+        cfp.process(is);
+        String result = cfp.getArticleHeader().toString();
+
+        String expected = "Titre : Mon premier article\n" +
+            "Auteur : Bertil Chapuis\n" +
+            "Date : Wed Mar 10 01:00:00 CET 2021\n" +
+            "Tags : cooking, travel\n";
+
+        assertEquals(expected, result);
+    }
 }
 
