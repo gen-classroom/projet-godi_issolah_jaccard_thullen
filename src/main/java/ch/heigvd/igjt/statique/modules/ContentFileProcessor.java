@@ -11,10 +11,11 @@ package ch.heigvd.igjt.statique.modules;
 
 
 import java.io.*;
+import ch.heigvd.igjt.statique.data.ArticleHeader;
 
 public class ContentFileProcessor {
     private String htmlContent;
-    private String articleHeader;
+    private ArticleHeader articleHeader;
 
     public void process(InputStream is) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
@@ -37,7 +38,7 @@ public class ContentFileProcessor {
 
         // Yaml header to html
         YamlProcessor yaml = new YamlProcessor(metaDatas);
-        yaml.parseArticleHeader();
+        articleHeader = yaml.parseArticleHeader();
         // Markdown content to html
         htmlContent = MarkdownProcessor.compileToHtml(pageData);
     }
@@ -46,7 +47,7 @@ public class ContentFileProcessor {
         return htmlContent;
     }
 
-    public String getArticleHeader() {
+    public ArticleHeader getArticleHeader() {
         return articleHeader;
     }
 }
