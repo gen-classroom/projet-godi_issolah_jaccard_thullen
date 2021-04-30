@@ -50,7 +50,9 @@ public class SubCommandBuild implements Callable<Integer> {
         if(sourceFile.isFile()) {
             if(FilenameUtils.getExtension(sourceFile.getName()).equals("md"))
             {
-                String html = ContentFileProcessor.process(new FileInputStream(sourceFile));
+                ContentFileProcessor cfp = new ContentFileProcessor();
+                cfp.process(new FileInputStream(sourceFile));
+                String html = cfp.getHtmlContent();
 
                 File newFile = new File(path + "/build/" + FilenameUtils.removeExtension(sourceFile.getPath()) + ".html");
                 if (!newFile.exists()) {
@@ -69,7 +71,10 @@ public class SubCommandBuild implements Callable<Integer> {
                     os.write(html.getBytes());
                     os.flush();
                 }
-            }else{
+            }else if(FilenameUtils.getExtension(sourceFile.getName()).equals("yaml")){
+                //TODO
+            }
+            else{
                 File newFile = new File(path + "/build/" + sourceFile.getPath());
                 if (!newFile.exists()) {
                     new File(path + "/build/" + sourceFile.getParent()).mkdirs();
