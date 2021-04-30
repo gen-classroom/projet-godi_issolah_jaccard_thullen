@@ -41,7 +41,9 @@ public class DirTreeProcessor {
         }
 
         if(sourceFile.isFile()) {
-            String html = ContentFileProcessor.process(new FileInputStream(sourceFile));
+            ContentFileProcessor cfp = new ContentFileProcessor();
+            cfp.process(new FileInputStream(sourceFile));
+            String html = cfp.getHtmlContent();
 
             File newFile = new File(mainPath + "/build/" + FilenameUtils.removeExtension(sourceFile.getPath()) + ".html");
             if (!newFile.exists()) {
