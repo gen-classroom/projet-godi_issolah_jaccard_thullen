@@ -3,9 +3,7 @@ package ch.heigvd.igjt.statique.modules;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -40,7 +38,7 @@ public class ContentFileProcessorTest {
     public void yamlHeaderTest() throws IOException {
         String virtualPage = "titre: Mon premier article\n" +
                 "auteur: Bertil Chapuis\n" +
-                "date: 2021-03-10\n" +
+                "date:\n" +
                 "tags:\n" +
                 "  - cooking\n" +
                 "  - travel\n" +
@@ -56,7 +54,7 @@ public class ContentFileProcessorTest {
 
         String expected = "Titre : Mon premier article\n" +
             "Auteur : Bertil Chapuis\n" +
-            "Date : Wed Mar 10 01:00:00 CET 2021\n" +
+            "Date : null\n" +
             "Tags : cooking, travel\n";
 
         assertEquals(expected, result);
