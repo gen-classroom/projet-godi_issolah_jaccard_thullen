@@ -3,6 +3,7 @@ package ch.heigvd.igjt.statique.subcommands;
 import ch.heigvd.igjt.statique.data.ArticleHeader;
 import ch.heigvd.igjt.statique.data.SiteConfig;
 import org.apache.commons.io.FileUtils;
+import org.junit.Test;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Tag;
@@ -108,6 +109,13 @@ public class TestUtils {
     public static String getMenuString() throws IOException {
         ClassLoader classLoader = TestUtils.class.getClassLoader();
         File file = new File(classLoader.getResource("menu.html").getFile());
+        List<String> lines = Files.readAllLines(file.toPath());
+        return String.join(System.lineSeparator(), lines);
+    }
+
+    public static String getExpectedFinalDocument() throws IOException {
+        ClassLoader classLoader = TestUtils.class.getClassLoader();
+        File file = new File(classLoader.getResource("article.expected.html").getFile());
         List<String> lines = Files.readAllLines(file.toPath());
         return String.join(System.lineSeparator(), lines);
     }

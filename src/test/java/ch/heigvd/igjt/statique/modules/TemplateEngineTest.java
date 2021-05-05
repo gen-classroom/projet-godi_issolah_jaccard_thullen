@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.io.IOException;
 
 import static ch.heigvd.igjt.statique.subcommands.TestUtils.*;
+import static org.junit.Assert.assertEquals;
 
 public class TemplateEngineTest {
 
@@ -13,6 +14,6 @@ public class TemplateEngineTest {
         initTemplate();
         TemplateEngine engine = new TemplateEngine(getExpectedSiteConfig(), TEMPLATE_PATH);
         String result = engine.build(MarkdownProcessor.compileToHtml(getExpectedIndexFileContent()), getExpectedIndexHeader());
-        System.out.println(result);
+        assertEquals(getExpectedFinalDocument(), result);
     }
 }
