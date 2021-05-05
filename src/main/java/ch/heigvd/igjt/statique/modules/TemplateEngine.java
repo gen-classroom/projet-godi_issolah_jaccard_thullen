@@ -9,6 +9,7 @@ import com.github.jknack.handlebars.io.FileTemplateLoader;
 import com.github.jknack.handlebars.io.TemplateLoader;
 
 import java.io.IOException;
+import java.util.List;
 
 public class TemplateEngine {
 
@@ -17,6 +18,7 @@ public class TemplateEngine {
     private Handlebars handlebars;
     private TemplateLoader templateLoader;
     private String templatePath;
+    private List<String> articlePaths;
 
     public TemplateEngine(SiteConfig siteConfig, String layout, String templatePath){
         this.siteConfig = siteConfig;

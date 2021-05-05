@@ -16,23 +16,11 @@ public class ArticleContext {
         return siteTitle;
     }
 
-    public void setSiteTitle(String siteTitle) {
-        this.siteTitle = siteTitle;
-    }
-
     public String getPageTitle() {
         return pageTitle;
     }
 
-    public void setPageTitle(String pageTitle) {
-        this.pageTitle = pageTitle;
-    }
-
     public String getContent() {
         return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
     }
 }

@@ -13,6 +13,6 @@ public class TemplateEngineTest {
         initTemplate();
         TemplateEngine engine = new TemplateEngine(getExpectedSiteConfig(), getLayoutString(), TEMPLATE_PATH);
         String result = engine.build(MarkdownProcessor.compileToHtml(getExpectedIndexFileContent()), getExpectedIndexHeader());
-        // TODO: Define expected result
+        System.out.println(result);
     }
 }

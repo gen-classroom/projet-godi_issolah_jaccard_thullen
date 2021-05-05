@@ -8,11 +8,14 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Tag;
 import picocli.CommandLine;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.List;
 
 public class TestUtils {
 
@@ -63,7 +66,7 @@ public class TestUtils {
     }
 
     public static File writeExpectedIndexFile() throws IOException {
-        File expectedIndexFile = new File(TEMP_DIR + "index.expected.md");
+        File expectedIndexFile = new File(TEMP_DIR + "index.article.md");
         Yaml yaml = new Yaml();
         FileWriter writer = new FileWriter(expectedIndexFile);
         ArticleHeader header = getExpectedIndexHeader();
@@ -88,30 +91,24 @@ public class TestUtils {
         return header;
     }
 
-    public static String getExpectedIndexFileContent() {
-        String content = "Le contenu de ma première page de mon site !";
-        return content;
+    public static String getExpectedIndexFileContent() throws IOException {
+        ClassLoader classLoader = TestUtils.class.getClassLoader();
+        File file = new File(classLoader.getResource("article.md").getFile());
+        List<String> lines = Files.readAllLines(file.toPath());
+        return String.join(System.lineSeparator(), lines);
     }
 
-    public static String getLayoutString() {
-        String layout = "<html lang=\"en\">" +
-                "<head>" +
-                "<meta charset=\"utf-8\">" +
-                        "<title>{{siteTitle}} | {{pageTitle}}</title>" +
-                "</head>" +
-                "<body>" +
-                    "{{> menu}}" +
-                    "{{content }}" +
-                "</body>" +
-                "</html>";
-        return layout;
+    public static String getLayoutString() throws IOException {
+        ClassLoader classLoader = TestUtils.class.getClassLoader();
+        File file = new File(classLoader.getResource("layout.html").getFile());
+        List<String> lines = Files.readAllLines(file.toPath());
+        return String.join(System.lineSeparator(), lines);
     }
 
-    public static String getMenuString() {
-        String menu = "<ul>" +
-                "<li><a href=\"/index.html\">home</a></li>" +
-                "<li><a href=\"/content/page.html\">page</a></li>" +
-                "</ul>";
-        return menu;
+    public static String getMenuString() throws IOException {
+        ClassLoader classLoader = TestUtils.class.getClassLoader();
+        File file = new File(classLoader.getResource("menu.html").getFile());
+        List<String> lines = Files.readAllLines(file.toPath());
+        return String.join(System.lineSeparator(), lines);
     }
 }
