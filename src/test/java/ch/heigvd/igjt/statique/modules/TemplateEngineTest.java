@@ -11,7 +11,7 @@ public class TemplateEngineTest {
     @Test
     public void templateEngineShouldIncludeContent() throws IOException {
         initTemplate();
-        TemplateEngine engine = new TemplateEngine(getExpectedSiteConfig(), getLayoutString(), TEMPLATE_PATH);
+        TemplateEngine engine = new TemplateEngine(getExpectedSiteConfig(), TEMPLATE_PATH);
         String result = engine.build(MarkdownProcessor.compileToHtml(getExpectedIndexFileContent()), getExpectedIndexHeader());
         System.out.println(result);
     }

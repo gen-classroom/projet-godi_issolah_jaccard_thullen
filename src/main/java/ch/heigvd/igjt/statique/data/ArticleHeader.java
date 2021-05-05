@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * A data class encapsulating metadata given in the YAML header block of an article.
+ */
 public class ArticleHeader {
 
     private String titre;
@@ -46,10 +49,10 @@ public class ArticleHeader {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Titre : ").append(titre).append("\n");
-        sb.append("Auteur : ").append(auteur).append("\n");
-        sb.append("Date : ").append(date).append("\n");
-        sb.append("Tags : ").append(String.join(", ", tags)).append("\n");
+        sb.append("Titre : ").append(titre).append("\n")
+                .append("Auteur : ").append(auteur).append("\n")
+                .append("Date : ").append(date).append("\n")
+                .append("Tags : ").append(String.join(", ", tags)).append("\n");
         return sb.toString();
     }
 }

@@ -1,5 +1,9 @@
 package ch.heigvd.igjt.statique.data;
 
+/**
+ * A context object for use with HandleBars. The class members declared here map
+ * to proprieties to be injected in the final HTML document.
+ */
 public class ArticleContext {
 
     private String siteTitle;
