@@ -13,7 +13,7 @@ public class TemplateEngineTest {
     public void templateEngineShouldIncludeContent() throws IOException {
         initTemplate();
         TemplateEngine engine = new TemplateEngine(getExpectedSiteConfig(), TEMPLATE_PATH);
-        String result = engine.build(MarkdownProcessor.compileToHtml(getExpectedIndexFileContent()), getExpectedIndexHeader());
+        String result = engine.build(MarkdownProcessor.compileToHtml(getExpectedArticleContent()), getExpectedIndexHeader());
         assertEquals(getExpectedFinalDocument(), result);
     }
 }
