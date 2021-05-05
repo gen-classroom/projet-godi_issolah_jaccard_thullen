@@ -92,7 +92,11 @@ public class TestUtils {
         return header;
     }
 
-    public static String getExpectedIndexFileContent() throws IOException {
+    public static String getExpectedIndexFileContent() {
+        return "Le contenu de ma première page\n";
+    }
+
+    public static String getExpectedArticleContent() throws IOException {
         ClassLoader classLoader = TestUtils.class.getClassLoader();
         File file = new File(classLoader.getResource("article.md").getFile());
         List<String> lines = Files.readAllLines(file.toPath());
