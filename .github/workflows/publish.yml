@@ -22,8 +22,8 @@ jobs:
     - uses: "marvinpinto/action-automatic-releases@latest"
       with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
+          automatic_release_tag: "${GITHUB_REF##*/}" # tag name (REF = "refs/tags/tagname")
           prerelease: false
           # Release title; defaults to the tag name if none specified.
           files:
-            ./target/*.jar      
+            ./target/static-?.?.?.jar      
