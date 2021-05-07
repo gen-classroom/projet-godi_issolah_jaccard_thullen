@@ -27,6 +27,10 @@ jobs:
           automatic_release_tag: "latest"
           prerelease: false
           # Release title; defaults to the tag name if none specified.
+          run: |
+            echo "-----HHHHHHHHHHHHHHHHHHHHHHHH------------"
+            ls
+            echo "-----HHHHHHHHHHHHHHHHHHHHHHHH------------"
           files: |
             target/*.jar
        
