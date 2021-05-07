@@ -36,4 +36,4 @@ jobs:
           prerelease: false
           # Release title; defaults to the tag name if none specified.
           files:
-            ./target/static-?.?.?.jar      
+            ./target/static-[0-9].[0-9].[0-9].jar      
