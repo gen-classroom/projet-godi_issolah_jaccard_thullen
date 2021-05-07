@@ -10,20 +10,17 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import static ch.heigvd.igjt.statique.subcommands.TestUtils.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class YamlProcessorTest {
 
-    static private String TEMP_DIR = "./target/tmp/";
-    static private String TEST_DIR = TEMP_DIR + "test_site/";
-    static private String SITE_PATH = TEST_DIR + "mon/site/";
-
     @Test
     public void yamlProcessorShouldParseConfigFileCorrectly() throws IOException {
-        InitTest.resetTempDir();
-        InitTest.callInit();
-        File expectedConfigFile = InitTest.writeExpectedSiteConfig();
+        resetTempDir();
+        callInit();
+        File expectedConfigFile = writeExpectedSiteConfig();
         YamlProcessor processor = new YamlProcessor(expectedConfigFile);
         SiteConfig siteConfig = processor.parseSiteConfig();
         assertEquals("Mon site", siteConfig.getTitre());
@@ -33,9 +30,9 @@ public class YamlProcessorTest {
 
     @Test
     public void yamlProcessorShouldParseIndexFileCorrectly() throws IOException, ParseException {
-        InitTest.resetTempDir();
-        InitTest.callInit();
-        File expectedIndexFile = InitTest.writeExpectedIndexFile();
+        resetTempDir();
+        callInit();
+        File expectedIndexFile = writeExpectedIndexFile();
         YamlProcessor processor = new YamlProcessor(expectedIndexFile);
         ArticleHeader header = processor.parseArticleHeader();
         assertEquals("La première page de mon site !", header.getTitre());

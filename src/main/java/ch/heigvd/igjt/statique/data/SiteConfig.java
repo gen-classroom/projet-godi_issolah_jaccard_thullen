@@ -1,5 +1,8 @@
 package ch.heigvd.igjt.statique.data;
 
+/**
+ * A data class encapsulating metadata for the whole site, and given in the config.yaml file.
+ */
 public class SiteConfig {
 
     private String titre;
