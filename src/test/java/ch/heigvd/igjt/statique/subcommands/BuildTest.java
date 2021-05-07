@@ -6,6 +6,7 @@ import picocli.CommandLine;
 
 import java.io.File;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class BuildTest {
@@ -52,6 +53,6 @@ public class BuildTest {
 
         String[] args = {rootDirectory};
         SubCommandBuild params = CommandLine.populateCommand(new SubCommandBuild(), args);
-        assertTrue(params.call() == -1);
+        assertEquals((int) params.call(), -1);
     }
 }
