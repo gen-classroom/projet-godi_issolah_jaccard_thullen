@@ -12,6 +12,7 @@ package ch.heigvd.igjt.statique.modules;
 
 import java.io.*;
 import ch.heigvd.igjt.statique.data.ArticleHeader;
+import ch.heigvd.igjt.statique.data.SiteConfig;
 
 public class ContentFileProcessor {
     private String htmlContent;
@@ -41,6 +42,11 @@ public class ContentFileProcessor {
         articleHeader = yaml.parseArticleHeader();
         // Markdown content to html
         htmlContent = MarkdownProcessor.compileToHtml(pageData);
+    }
+
+    public SiteConfig getSiteConfigFromYaml(File configFile)
+    {
+        return new YamlProcessor(configFile).parseSiteConfig();
     }
 
     public String getHtmlContent() {

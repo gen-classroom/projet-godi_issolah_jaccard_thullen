@@ -1,6 +1,9 @@
 package ch.heigvd.igjt.statique.subcommands;
 
+import ch.heigvd.igjt.statique.data.ArticleHeader;
+import ch.heigvd.igjt.statique.data.SiteConfig;
 import ch.heigvd.igjt.statique.modules.ContentFileProcessor;
+import ch.heigvd.igjt.statique.modules.TemplateEngine;
 import org.apache.commons.io.FilenameUtils;
 import picocli.CommandLine;
 
@@ -10,6 +13,9 @@ import java.util.concurrent.Callable;
 
 @CommandLine.Command(name = "build")
 public class SubCommandBuild implements Callable<Integer> {
+
+    TemplateEngine templateEngine;
+    ContentFileProcessor cfp;
 
     @CommandLine.Parameters(index="0") String path;
     @Override
@@ -24,6 +30,25 @@ public class SubCommandBuild implements Callable<Integer> {
 
         build.mkdir();
 
+        cfp = new ContentFileProcessor();
+
+        File configFile = new File(path + "/config.yaml");
+
+        if(!configFile.exists())
+        {
+            System.out.println("config file not found (config.yaml)");
+            return -1;
+        }
+
+        SiteConfig siteConfig = cfp.getSiteConfigFromYaml(configFile);
+
+        try{
+            templateEngine = new TemplateEngine(siteConfig, path + "template/");
+        }catch (Exception e){
+            System.out.println("template file not found");
+            return -1;
+        }
+
         try{
             buildFiles(sourceFile);
         }catch (IOException e){
@@ -35,7 +60,7 @@ public class SubCommandBuild implements Callable<Integer> {
     }
 
     private void buildFiles(File sourceFile) throws IOException {
-        if(sourceFile.getName().equals("build"))
+        if(sourceFile.getName().equals("build") || sourceFile.getName().equals("template"))
             return;
 
         File[] files = sourceFile.listFiles();
@@ -50,9 +75,11 @@ public class SubCommandBuild implements Callable<Integer> {
         if(sourceFile.isFile()) {
             if(FilenameUtils.getExtension(sourceFile.getName()).equals("md"))
             {
-                ContentFileProcessor cfp = new ContentFileProcessor();
                 cfp.process(new FileInputStream(sourceFile));
-                String html = cfp.getHtmlContent();
+                String htmlContent = cfp.getHtmlContent();
+                ArticleHeader articleHeader = cfp.getArticleHeader();
+
+                String content = templateEngine.build(htmlContent,articleHeader);
 
                 File newFile = new File(path + "/build/" + FilenameUtils.removeExtension(sourceFile.getPath()) + ".html");
                 if (!newFile.exists()) {
@@ -61,20 +88,20 @@ public class SubCommandBuild implements Callable<Integer> {
 
                     newFile.createNewFile();
                     OutputStream os = new FileOutputStream(newFile);
-                    os.write(html.getBytes());
+                    os.write(content.getBytes());
                     os.flush();
 
                 } else {
                     newFile.delete();
                     newFile.createNewFile();
                     OutputStream os = new FileOutputStream(newFile);
-                    os.write(html.getBytes());
+                    os.write(content.getBytes());
                     os.flush();
                 }
-            }else if(FilenameUtils.getExtension(sourceFile.getName()).equals("yaml")){
-                //TODO
             }
             else{
+                if(sourceFile.getName().equals("config.yaml"))
+                    return;
                 File newFile = new File(path + "/build/" + sourceFile.getPath());
                 if (!newFile.exists()) {
                     new File(path + "/build/" + sourceFile.getParent()).mkdirs();
