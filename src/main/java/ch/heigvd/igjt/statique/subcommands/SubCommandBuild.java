@@ -43,7 +43,7 @@ public class SubCommandBuild implements Callable<Integer> {
         SiteConfig siteConfig = cfp.getSiteConfigFromYaml(configFile);
 
         try{
-            templateEngine = new TemplateEngine(siteConfig, path + "/template/layout");
+            templateEngine = new TemplateEngine(siteConfig, path + "template/");
         }catch (Exception e){
             System.out.println("template file not found");
             return -1;
