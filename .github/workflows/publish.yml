@@ -22,7 +22,7 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "latest"
           prerelease: false
-          title: "Release test"
+          # Release title; defaults to the tag name if none specified.
           files: |
-            ./target/*.jar
+            target/*.jar
        
