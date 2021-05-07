@@ -17,12 +17,8 @@ jobs:
         java-version: 11
         
     - name: Build with Maven
-      run: |
-        echo "-----HHHHHHHHHHHHHHHHHHHHHHHH------------"
-        ls
-        echo "-----HHHHHHHHHHHHHHHHHHHHHHHH------------"
+      run: mvn clean install
                 
-    - name: Release
     - uses: "marvinpinto/action-automatic-releases@latest"
       with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
