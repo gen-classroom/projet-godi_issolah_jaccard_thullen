@@ -16,7 +16,13 @@ jobs:
         java-version: 11
     - name: Build with Maven
       run: mvn clean install
-    - name: deploy
+      
+    - uses: "marvinpinto/action-automatic-releases@latest"
       with:
-        source: "./target/${{*.jar}}"
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: false
+          title: "Release test"
+          files: |
+            *.jar
        
