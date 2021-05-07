@@ -18,11 +18,11 @@ jobs:
         
     - name: Build with Maven
       run: |
-        mvn clean install
         echo "-----HHHHHHHHHHHHHHHHHHHHHHHH------------"
         ls
         echo "-----HHHHHHHHHHHHHHHHHHHHHHHH------------"
-      
+        mvn clean install
+        
     - name: Release
     - uses: "marvinpinto/action-automatic-releases@latest"
       with:
@@ -30,6 +30,5 @@ jobs:
           automatic_release_tag: "latest"
           prerelease: false
           # Release title; defaults to the tag name if none specified.
-          files: |
-            target/*.jar
-       
+          files:
+            target/*.jar      
