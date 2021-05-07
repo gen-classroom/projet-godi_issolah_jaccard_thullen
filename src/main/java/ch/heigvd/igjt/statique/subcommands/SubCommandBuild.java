@@ -1,5 +1,6 @@
 package ch.heigvd.igjt.statique.subcommands;
 
+import ch.heigvd.igjt.statique.data.ArticleHeader;
 import ch.heigvd.igjt.statique.data.SiteConfig;
 import ch.heigvd.igjt.statique.modules.ContentFileProcessor;
 import ch.heigvd.igjt.statique.modules.TemplateEngine;
@@ -75,7 +76,10 @@ public class SubCommandBuild implements Callable<Integer> {
             if(FilenameUtils.getExtension(sourceFile.getName()).equals("md"))
             {
                 cfp.process(new FileInputStream(sourceFile));
-                String html = cfp.getHtmlContent();
+                String htmlContent = cfp.getHtmlContent();
+                ArticleHeader articleHeader = cfp.getArticleHeader();
+
+                String content = templateEngine.build(htmlContent,articleHeader);
 
                 File newFile = new File(path + "/build/" + FilenameUtils.removeExtension(sourceFile.getPath()) + ".html");
                 if (!newFile.exists()) {
@@ -84,14 +88,14 @@ public class SubCommandBuild implements Callable<Integer> {
 
                     newFile.createNewFile();
                     OutputStream os = new FileOutputStream(newFile);
-                    os.write(html.getBytes());
+                    os.write(content.getBytes());
                     os.flush();
 
                 } else {
                     newFile.delete();
                     newFile.createNewFile();
                     OutputStream os = new FileOutputStream(newFile);
-                    os.write(html.getBytes());
+                    os.write(content.getBytes());
                     os.flush();
                 }
             }
