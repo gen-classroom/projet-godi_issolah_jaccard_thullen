@@ -18,5 +18,5 @@ jobs:
       run: mvn clean install
     - name: deploy
       with:
-        folder: target
+        source: "./target/${{*.jar}}"
        
