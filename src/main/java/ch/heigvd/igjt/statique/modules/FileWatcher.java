@@ -1,5 +1,6 @@
 package ch.heigvd.igjt.statique.modules;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 
@@ -31,20 +32,25 @@ public class FileWatcher {
 
     private void processEvent(WatchEvent<?> event) {
         WatchEvent.Kind<?> kind = event.kind();
-        Path relativePath = (Path) event.context();
-        if (relativePath != null) {
+        Path eventPath = (Path) event.context();
+        Path eventPathParent = eventPath;
+        int depth = eventPath.getNameCount();
+        // ./build/a/b/C.java --> getNameCount = 4
+        for (int i = 0; i < depth-1; i++) {
+            eventPathParent = eventPathParent.getParent();
+        }
+        // ./build
+        if (!eventPathParent.endsWith("build")) {
             if (kind == ENTRY_CREATE) {
                 // process new file; skeleton
-                SiteBuilder.buildFile(relativePath);
+                SiteBuilder.buildFile(eventPath);
             } else if (kind == ENTRY_DELETE) {
                 // process deleted file
-                SiteBuilder.delete(relativePath);
+                SiteBuilder.delete(eventPath);
             } else if (kind == ENTRY_MODIFY) {
                 // process modified file
-                SiteBuilder.build(relativePath);
+                SiteBuilder.build(eventPath);
             }
-        } else {
-            System.err.println("Cannot get path for event: " + event);
         }
     }
 
