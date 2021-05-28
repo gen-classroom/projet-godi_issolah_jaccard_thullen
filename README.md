@@ -1,4 +1,5 @@
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/gen-classroom/projet-godi_issolah_jaccard_thullen.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/gen-classroom/projet-godi_issolah_jaccard_thullen/alerts/)
+[![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/gen-classroom/projet-godi_issolah_jaccard_thullen.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/gen-classroom/projet-godi_issolah_jaccard_thullen/context:java)
 
 # HEIG-VD - Génie Logiciel 2021
 
