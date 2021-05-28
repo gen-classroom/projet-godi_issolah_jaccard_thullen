@@ -8,9 +8,11 @@ import static java.nio.file.StandardWatchEventKinds.*;
 public class FileWatcher {
 
     String watchPath;
+    ContentFileProcessor processor;
 
     public FileWatcher(String watchPath) {
         this.watchPath = watchPath;
+        this.processor = new ContentFileProcessor();
     }
 
     public void start() throws IOException, InterruptedException {
@@ -29,12 +31,20 @@ public class FileWatcher {
 
     private void processEvent(WatchEvent<?> event) {
         WatchEvent.Kind<?> kind = event.kind();
-        if (kind == ENTRY_CREATE) {
-            // process new file
-        } else if (kind == ENTRY_DELETE) {
-            // process deleted file
-        } else if (kind == ENTRY_MODIFY) {
-            // process modified file
+        Path relativePath = (Path) event.context();
+        if (relativePath != null) {
+            if (kind == ENTRY_CREATE) {
+                // process new file; skeleton
+                SiteBuilder.buildFile(relativePath);
+            } else if (kind == ENTRY_DELETE) {
+                // process deleted file
+                SiteBuilder.delete(relativePath);
+            } else if (kind == ENTRY_MODIFY) {
+                // process modified file
+                SiteBuilder.build(relativePath);
+            }
+        } else {
+            System.err.println("Cannot get path for event: " + event);
         }
     }
 
