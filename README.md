@@ -1,3 +1,5 @@
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/gen-classroom/projet-godi_issolah_jaccard_thullen.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/gen-classroom/projet-godi_issolah_jaccard_thullen/alerts/)
+
 # HEIG-VD - Génie Logiciel 2021
 
 Basile Thullen, Maude Issolah, Anthony Jaccard, Matthieu Godi
