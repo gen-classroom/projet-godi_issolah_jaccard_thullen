@@ -24,21 +24,23 @@ jobs:
       run: mvn javadoc:javadoc
         
       # https://github.com/marketplace/actions/get-tag-name
-    - name: Get tag name
-      uses: olegtarasov/get-tag@v2.1
-      id: tagName
-      with:
-          tagRegex: "foobar-(.*)"  # Optional. Returns specified group text as tag name. Full tag string is returned if regex is not defined.
-          tagRegexGroup: 1 # Optional. Default is 1.
+    #- name: Get tag name
+     # uses: olegtarasov/get-tag@v2.1
+      #id: tagName
+      #with:
+       #   tagRegex: "foobar-(.*)"  # Optional. Returns specified group text as tag name. Full tag string is returned if regex is not defined.
+        #  tagRegexGroup: 1 # Optional. Default is 1.
         
     
     - name: create release
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "${{ steps.tagName.outputs.tag }}"
+          #automatic_release_tag: "${{ steps.tagName.outputs.tag }}"
+          automatic_release_tag: "v0.0.2.5"
           prerelease: false
           # Release title; defaults to the tag name if none specified.
           files:
             ./target/statique-?.?.?.jar
-            ./target/site
+          path:
+            ./target/site/
