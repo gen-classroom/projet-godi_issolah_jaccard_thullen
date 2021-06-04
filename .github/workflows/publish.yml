@@ -42,4 +42,4 @@ jobs:
           # Release title; defaults to the tag name if none specified.
           files:
             ./target/statique-?.?.?.jar |
-            ./target/site
+            ./target/site/*
