@@ -41,5 +41,5 @@ jobs:
           prerelease: false
           # Release title; defaults to the tag name if none specified.
           files:
-            ./target/statique-?.?.?.jar
-            ./target/site/*
+            ./target/statique-?.?.?.jar |
+            ./target/site
