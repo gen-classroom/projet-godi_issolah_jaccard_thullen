@@ -40,6 +40,6 @@ jobs:
           automatic_release_tag: "v0.0.2.5"
           prerelease: false
           # Release title; defaults to the tag name if none specified.
-          files:
-            ./target/statique-?.?.?.jar |
+          files: |
+            ./target/statique-?.?.?.jar
             ./target/site/*
