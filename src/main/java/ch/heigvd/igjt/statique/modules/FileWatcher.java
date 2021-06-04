@@ -6,6 +6,10 @@ import java.nio.file.*;
 
 import static java.nio.file.StandardWatchEventKinds.*;
 
+/**
+ * @author Basile Thullen
+ * Watch a given directory for file changes
+ */
 public class FileWatcher {
 
     String watchPath;
@@ -16,6 +20,11 @@ public class FileWatcher {
         this.processor = new ContentFileProcessor();
     }
 
+    /**
+     * Start the FileWatcher service
+     * @throws IOException if an I/O error occurs
+     * @throws InterruptedException if the watch service is interrupted by an exception
+     */
     public void start() throws IOException, InterruptedException {
         WatchService watchService = FileSystems.getDefault().newWatchService();
         Path path = Paths.get(watchPath);
@@ -30,6 +39,10 @@ public class FileWatcher {
         }
     }
 
+    /**
+     * Process the given file change notification event
+     * @param event the file change event to process
+     */
     private void processEvent(WatchEvent<?> event) {
         WatchEvent.Kind<?> kind = event.kind();
         Path eventPath = (Path) event.context();
