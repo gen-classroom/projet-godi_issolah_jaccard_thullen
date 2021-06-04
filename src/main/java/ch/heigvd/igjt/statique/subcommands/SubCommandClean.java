@@ -11,7 +11,14 @@ import java.util.concurrent.Callable;
 @CommandLine.Command(name = "clean")
 public class SubCommandClean implements Callable<Integer> {
 
+
     @CommandLine.Parameters(index="0") String path;
+
+    /**
+     * Delete the build folder
+     * @return
+     * @throws Exception
+     */
     @Override
     public Integer call() throws Exception {
         System.out.println("Cleaning site at '" + path + "'...");
@@ -24,6 +31,10 @@ public class SubCommandClean implements Callable<Integer> {
         return 0;
     }
 
+    /**
+     * Delete the file recursively
+     * @param pathFile
+     */
     void delete(File pathFile)
     {
         File[] files = pathFile.listFiles();

@@ -11,7 +11,7 @@ public class VersionTest {
 
     @Test
     public void shouldPrintCorrectVersion() throws Exception {
-        String expected = "0.0.2";
+        String expected = "0.0.2-SNAPSHOT";
         SubCommandVersion params = CommandLine.populateCommand(new SubCommandVersion());
         params.call();
         String actual = params.version;

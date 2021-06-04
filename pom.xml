@@ -6,7 +6,7 @@
 
   <groupId>ch.heigvd.issojagothu</groupId>
   <artifactId>statique</artifactId>
-  <version>0.0.2</version>
+  <version>0.0.2-SNAPSHOT</version>
 
   <properties>
      <encoding>UTF-8</encoding>
@@ -49,6 +49,14 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.3.0</version>
+        <configuration>
+
+        </configuration>
       </plugin>
     </plugins>
   </build>
