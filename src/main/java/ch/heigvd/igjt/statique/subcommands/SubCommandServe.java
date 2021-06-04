@@ -16,8 +16,8 @@ import java.util.concurrent.Callable;
 
 @CommandLine.Command(name = "serve")
 public class SubCommandServe implements Callable<Integer> {
-    @CommandLine.Parameters(paramLabel = "PROJECT_FOLDER", description = "The root folder of the project to be served", defaultValue = ".")
-    String projectFolder;
+    @CommandLine.Parameters(paramLabel = "PROJECT_FOLDER", description = "The root folder of the project to be served", defaultValue = ".") String projectFolder;
+    @CommandLine.Option(names = "--watch", usageHelp = true, description = "Auto-rebuild when files are changed") boolean autoRebuild;
 
     int defaultPort = 8080;
     String defaultHostname = "localhost";
@@ -32,20 +32,28 @@ public class SubCommandServe implements Callable<Integer> {
         }
         catch(IOException e)
         {
-            System.out.println("Error: Could not create an HTTP server");
+            System.out.println("Error: Could not create an HTTP server\n");
             return 1;
         }
+
+        String path = projectFolder.contains("/build") ? projectFolder.substring(0, projectFolder.indexOf("/build")) : projectFolder; //Watch parent folder of "build" subfolder if exists
         server.createContext("/", new StatiqueHandler(projectFolder));
         server.setExecutor(null);
         server.start();
-
+        FileWatcher fw;
+        if(autoRebuild)
+        {
+            fw = new FileWatcher(path);
+            System.out.println("Watchdog initialized for path " + path + "\n");
+        }
         System.out.println("Server was launched: " + defaultHostname + ":" + defaultPort + "\n Root folder: " + projectFolder + "\n Press Enter to terminate...");
         //Wait for user to press enter
         Scanner userInput = new Scanner(System.in);
         userInput.nextLine();
         //Exit the program
         server.stop(0);
-        System.out.println("Server was shutdown");
+        System.out.println("Server was shutdown\n");
+
         return 0;
     }
 
