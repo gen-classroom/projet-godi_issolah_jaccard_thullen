@@ -1,27 +1,47 @@
 package ch.heigvd.igjt.statique.modules;
 
+import ch.heigvd.igjt.statique.data.ArticleHeader;
+import ch.heigvd.igjt.statique.data.SiteConfig;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.*;
+import java.nio.file.Files;
 
 public class SiteBuilder
 {
     /**
      * Builds all the files contained in the rootPath folder and stores them in a "build/" subfolder. If the "build/" subfolder already exists, its content is cleared before processing. If it doesn't exist, it will be created
-     * @param rootPath
+     * @param rootFolder
      */
-    public static void buildAll(String rootPath) throws IOException {
-        File root = new File(rootPath);
-        File[] content = root.listFiles();
-        File buildFolder = new File(rootPath + "/build");
+    public static void buildAll(File rootFolder) throws IOException {
+        //Setup build folder
+        File buildFolder = new File(rootFolder + "/build");
         if(!buildFolder.mkdir())
         {
             clearContent(buildFolder);
         }
-
+        //Get site config
+        File configFile = new File(rootFolder.getPath() + "/config.yaml");
+        if(!configFile.exists())
+        {
+            System.out.println("config file not found (config.yaml)");
+            return;
+        }
+        //Setup template engine
+        TemplateEngine templateEngine;
+        ContentFileProcessor cfp = new ContentFileProcessor();
+        SiteConfig siteConfig = cfp.getSiteConfigFromYaml(configFile);
+        try{
+            templateEngine = new TemplateEngine(siteConfig, rootFolder.getPath() + "template/");
+        }catch (Exception e){
+            System.out.println("template file not found");
+            return;
+        }
+        //Build folder content
+        File[] content = rootFolder.listFiles();
         for(File f: content)
         {
-            buildFile(buildFolder, f);
+            buildFile(buildFolder, f, templateEngine, cfp);
         }
     }
 
@@ -30,37 +50,48 @@ public class SiteBuilder
      * @param buildFolder the folder to copy the file in when processed
      * @param file the file to be processed
      */
-    public static void buildFile(File buildFolder, File file) throws IOException
+    public static void buildFile(File buildFolder, File file, TemplateEngine templateEngine, ContentFileProcessor cfp) throws IOException
     {
-        if (file.isFile())
-        {
-            if (FilenameUtils.getExtension(file.getPath()).equals("md"))
-            {
-                String html = ContentFileProcessor.process(new FileInputStream(file));
-                File newFile = new File(buildFolder.getPath() + FilenameUtils.removeExtension(file.getPath()) + ".html");
+        if(file.getName().equals("build") || file.getName().equals("template")) return;
 
-                newFile.createNewFile();
-                OutputStream os = new FileOutputStream(newFile);
-                os.write(html.getBytes());
-                os.flush();
-                os.close();
-            }
-            else
+        File[] files = file.listFiles();
+        if(files != null)
+        {
+            File newBuildFolder = new File(buildFolder.getPath()+ "/" + file.getName());
+            newBuildFolder.mkdir();
+            for(final File f : files)
             {
-                copy(buildFolder, file);
+                buildFile(newBuildFolder, f, templateEngine, cfp);
             }
         }
-        else
-        {
-            File newBuildFolder = new File(buildFolder.getPath() + file.getName());
-            newBuildFolder.mkdir();
-            File[] content = file.listFiles();
-            if (content != null)
+
+        if(file.isFile()) {
+            if(FilenameUtils.getExtension(file.getName()).equals("md"))
             {
-                for (File f : content)
-                {
-                    buildFile(newBuildFolder, file);
+                cfp.process(new FileInputStream(file));
+                String htmlContent = cfp.getHtmlContent();
+                ArticleHeader articleHeader = cfp.getArticleHeader();
+
+                String content = templateEngine.build(htmlContent,articleHeader);
+
+                File newFile = new File(buildFolder.getPath() + FilenameUtils.removeExtension(file.getPath()) + ".html");
+                if (!newFile.exists()) {
+
+                    newFile.createNewFile();
+                    OutputStream os = new FileOutputStream(newFile);
+                    os.write(content.getBytes());
+                    os.flush();
+
+                } else {
+                    newFile.delete();
+                    newFile.createNewFile();
+                    OutputStream os = new FileOutputStream(newFile);
+                    os.write(content.getBytes());
+                    os.flush();
                 }
+            }
+            else{
+                copyToBuild(buildFolder, file);
             }
         }
     }
@@ -70,15 +101,16 @@ public class SiteBuilder
      * @param buildFolder the root folder to copy the file in
      * @param file the file to copy
      */
-    public static void copy(File buildFolder, File file) throws IOException {
-        File newFile = new File(buildFolder.getPath() + file.getName());
-        newFile.createNewFile();
-        OutputStream os = new FileOutputStream(newFile);
-        InputStream is = new FileInputStream(file);
-        os.write(is.readAllBytes());
-        os.flush();
-        os.close();
-        is.close();
+    public static void copyToBuild(File buildFolder, File file) throws IOException {
+        if(file.getName().equals("config.yaml")) return;
+        File newFile = new File(buildFolder.getPath() + file.getPath());
+        if (!newFile.exists()) {
+            Files.copy(file.toPath(),newFile.toPath());
+
+        } else {
+            newFile.delete();
+            Files.copy(file.toPath(),newFile.toPath());
+        }
     }
 
     /**
