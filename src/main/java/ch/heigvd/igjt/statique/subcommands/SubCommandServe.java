@@ -1,5 +1,6 @@
 package ch.heigvd.igjt.statique.subcommands;
 
+import ch.heigvd.igjt.statique.modules.FileWatcher;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
@@ -44,6 +45,7 @@ public class SubCommandServe implements Callable<Integer> {
         if(autoRebuild)
         {
             fw = new FileWatcher(path);
+            fw.start();
             System.out.println("Watchdog initialized for path " + path + "\n");
         }
         System.out.println("Server was launched: " + defaultHostname + ":" + defaultPort + "\n Root folder: " + projectFolder + "\n Press Enter to terminate...");

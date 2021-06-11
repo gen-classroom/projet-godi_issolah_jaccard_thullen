@@ -48,4 +48,12 @@ public class TemplateEngine {
         return result;
     }
 
+    /**
+     * Returns the SiteConfig for this TemplateEngine instance
+     * @return the SiteConfig object for this TemplateEngine instance
+     */
+    public SiteConfig getSiteConfig() {
+        return this.siteConfig;
+    }
+
 }

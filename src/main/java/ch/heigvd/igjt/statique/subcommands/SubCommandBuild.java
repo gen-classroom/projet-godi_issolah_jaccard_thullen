@@ -3,6 +3,7 @@ package ch.heigvd.igjt.statique.subcommands;
 import ch.heigvd.igjt.statique.data.ArticleHeader;
 import ch.heigvd.igjt.statique.data.SiteConfig;
 import ch.heigvd.igjt.statique.modules.ContentFileProcessor;
+import ch.heigvd.igjt.statique.modules.FileWatcher;
 import ch.heigvd.igjt.statique.modules.SiteBuilder;
 import ch.heigvd.igjt.statique.modules.TemplateEngine;
 import org.apache.commons.io.FilenameUtils;
@@ -30,6 +31,7 @@ public class SubCommandBuild implements Callable<Integer> {
         SiteBuilder.buildAll(sourceFile);
         if (autoRebuild) {
             FileWatcher fw = new FileWatcher(path);
+            fw.start();
             System.out.println("Watchdog initialized for path " + path + "\nPress Enter to terminate...");
             Scanner scan = new Scanner(System.in);
             scan.nextLine();
