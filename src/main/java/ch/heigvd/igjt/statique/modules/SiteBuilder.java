@@ -83,6 +83,7 @@ public class SiteBuilder
                     OutputStream os = new FileOutputStream(newFile);
                     os.write(content.getBytes());
                     os.flush();
+                    os.close();
 
                 } else {
                     newFile.delete();
@@ -90,6 +91,7 @@ public class SiteBuilder
                     OutputStream os = new FileOutputStream(newFile);
                     os.write(content.getBytes());
                     os.flush();
+                    os.close();
                 }
             }
             else{
