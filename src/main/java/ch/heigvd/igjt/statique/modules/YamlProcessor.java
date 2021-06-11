@@ -37,6 +37,7 @@ public class YamlProcessor {
                 yamlStrSB.append(tmpYamlStr).append(System.lineSeparator());
             }
             yamlStr = yamlStrSB.toString();
+            reader.close();
         } catch (FileNotFoundException e) {
             System.out.println("Could not find YAML document at " + yamlF.getAbsolutePath());
         } catch (IOException e) {

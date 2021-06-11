@@ -42,6 +42,7 @@ public class ContentFileProcessor {
         articleHeader = yaml.parseArticleHeader();
         // Markdown content to html
         htmlContent = MarkdownProcessor.compileToHtml(pageData);
+        is.close();
     }
 
     public SiteConfig getSiteConfigFromYaml(File configFile)
