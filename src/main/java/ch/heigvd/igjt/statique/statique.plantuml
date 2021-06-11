@@ -1,0 +1,234 @@
+@startuml
+
+title Diagramme de classe pour **statique** \n
+
+  namespace ch.heigvd.igjt.statique {
+    class ch.heigvd.igjt.statique.Main {
+        + call()
+        {static} + main()
+    }
+  }
+
+namespace ch.heigvd.igjt.statique {
+    namespace data {
+      class ch.heigvd.igjt.statique.data.ArticleContext {
+          - content : String
+          - pageTitle : String
+          - siteTitle : String
+          + ArticleContext()
+          + getContent()
+          + getPageTitle()
+          + getSiteTitle()
+      }
+    }
+  }
+
+
+  namespace ch.heigvd.igjt.statique {
+    namespace data {
+      class ch.heigvd.igjt.statique.data.ArticleHeader {
+          - auteur : String
+          - date : Date
+          - tags : List<String>
+          - titre : String
+          + getAuteur()
+          + getDate()
+          + getTags()
+          + getTitre()
+          + setAuteur()
+          + setDate()
+          + setTags()
+          + setTitre()
+          + toString()
+      }
+    }
+  }
+
+
+  namespace ch.heigvd.igjt.statique {
+    namespace data {
+      class ch.heigvd.igjt.statique.data.SiteConfig {
+          - description : String
+          - domaine : String
+          - titre : String
+          + getDescription()
+          + getDomaine()
+          + getTitre()
+          + setDescription()
+          + setDomaine()
+          + setTitre()
+          + toString()
+      }
+    }
+  }
+
+
+namespace ch.heigvd.igjt.statique {
+    namespace modules {
+      class ch.heigvd.igjt.statique.modules.ContentFileProcessor {
+          - htmlContent : String
+          + getArticleHeader()
+          + getHtmlContent()
+          + getSiteConfigFromYaml()
+          + process()
+      }
+    }
+  }
+
+
+  namespace ch.heigvd.igjt.statique {
+    namespace modules {
+      class ch.heigvd.igjt.statique.modules.FileWatcher {
+          ~ watchPath : Path
+          ~ watchPathString : String
+          + FileWatcher()
+          + start()
+          - processEvent()
+      }
+    }
+  }
+
+
+  namespace ch.heigvd.igjt.statique {
+    namespace modules {
+      class ch.heigvd.igjt.statique.modules.MarkdownProcessor {
+          {static} ~ compileToHtml()
+      }
+    }
+  }
+
+
+  namespace ch.heigvd.igjt.statique {
+    namespace modules {
+      class ch.heigvd.igjt.statique.modules.SiteBuilder {
+          {static} + buildAll()
+          {static} + buildFile()
+          {static} + clearContent()
+          {static} + copyToBuild()
+          {static} + recursiveDelete()
+      }
+    }
+  }
+
+
+  namespace ch.heigvd.igjt.statique {
+    namespace modules {
+      class ch.heigvd.igjt.statique.modules.TemplateEngine {
+          - handlebars : Handlebars
+          - templateLoader : TemplateLoader
+          + TemplateEngine()
+          + build()
+          + getSiteConfig()
+      }
+    }
+  }
+
+
+  namespace ch.heigvd.igjt.statique {
+    namespace modules {
+      class ch.heigvd.igjt.statique.modules.YamlProcessor {
+          ~ yamlStr : String
+          - yaml : Yaml
+          + YamlProcessor()
+          + YamlProcessor()
+          + parseArticleHeader()
+          + parseSiteConfig()
+      }
+    }
+  }
+
+
+  ch.heigvd.igjt.statique.modules.ContentFileProcessor o-- ch.heigvd.igjt.statique.data.ArticleHeader : articleHeader
+  ch.heigvd.igjt.statique.modules.FileWatcher o-- ch.heigvd.igjt.statique.modules.ContentFileProcessor : contentFileProcessor
+  ch.heigvd.igjt.statique.modules.FileWatcher o-- ch.heigvd.igjt.statique.data.SiteConfig : siteConfig
+  ch.heigvd.igjt.statique.modules.FileWatcher o-- ch.heigvd.igjt.statique.modules.TemplateEngine : templateEngine
+  ch.heigvd.igjt.statique.modules.TemplateEngine o-- ch.heigvd.igjt.statique.data.SiteConfig : siteConfig
+
+namespace ch.heigvd.igjt.statique {
+    namespace subcommands {
+      class ch.heigvd.igjt.statique.subcommands.SubCommandBuild {
+          ~ autoRebuild : boolean
+          ~ path : String
+          + call()
+      }
+    }
+  }
+
+
+  namespace ch.heigvd.igjt.statique {
+    namespace subcommands {
+      class ch.heigvd.igjt.statique.subcommands.SubCommandClean {
+          ~ path : String
+          + call()
+          ~ delete()
+      }
+    }
+  }
+
+
+  namespace ch.heigvd.igjt.statique {
+    namespace subcommands {
+      class ch.heigvd.igjt.statique.subcommands.SubCommandInit {
+          ~ path : String
+          + call()
+          - mkConfigFile()
+          - mkDirs()
+          - mkIndexFile()
+      }
+    }
+  }
+
+
+  namespace ch.heigvd.igjt.statique {
+    namespace subcommands {
+      class ch.heigvd.igjt.statique.subcommands.SubCommandNew {
+          + call()
+      }
+    }
+  }
+
+
+  namespace ch.heigvd.igjt.statique {
+    namespace subcommands {
+      class ch.heigvd.igjt.statique.subcommands.SubCommandServe {
+          ~ autoRebuild : boolean
+          ~ defaultHostname : String
+          ~ defaultPort : int
+          ~ projectFolder : String
+          - server : HttpServer
+          + call()
+      }
+    }
+  }
+
+
+  namespace ch.heigvd.igjt.statique {
+    namespace subcommands {
+      class ch.heigvd.igjt.statique.subcommands.SubCommandServe.StatiqueHandler {
+          - rootFolder : String
+          + StatiqueHandler()
+          + handle()
+      }
+    }
+  }
+
+
+  namespace ch.heigvd.igjt.statique {
+    namespace subcommands {
+      class ch.heigvd.igjt.statique.subcommands.SubCommandVersion {
+          ~ version : String
+          + call()
+      }
+    }
+  }
+
+
+
+
+right footer
+
+Matthieu Godi, Maude Issolah, Anthony Jaccard, Basile Thullen
+
+endfooter
+
+@enduml
