@@ -49,6 +49,8 @@ public class SiteBuilder
      * Processes the given file then adds it to the "build/" subfolder. The File object must have been created with a path relative to the folder containing the "build/" subfolder. The "build/" subfolder must already exist. If the file given is a folder, the folder is processed recursively
      * @param buildFolder the folder to copy the file in when processed
      * @param file the file to be processed
+     * @param templateEngine the template engine to be used to process a content file. Can be null if the file doesn't need to be compiled
+     * @param cfp the content file processor to use when compiling a content file. If the file isn't a content file, this argument may be null
      */
     public static void buildFile(File buildFolder, File file, TemplateEngine templateEngine, ContentFileProcessor cfp) throws IOException
     {
