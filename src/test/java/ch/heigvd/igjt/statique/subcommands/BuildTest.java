@@ -61,7 +61,7 @@ public class BuildTest {
                             "date: 2021-03-10\n" +
                             "---\n" +
                             "# Mon titre\n" +
-                            "## Mon sous-titre").getBytes());
+                            "## Mon sous-titre2").getBytes());
             Output.close();
         }
 
