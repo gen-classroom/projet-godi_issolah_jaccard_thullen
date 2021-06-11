@@ -3,6 +3,7 @@ package ch.heigvd.igjt.statique.subcommands;
 import ch.heigvd.igjt.statique.data.ArticleHeader;
 import ch.heigvd.igjt.statique.data.SiteConfig;
 import ch.heigvd.igjt.statique.modules.ContentFileProcessor;
+import ch.heigvd.igjt.statique.modules.FileWatcher;
 import ch.heigvd.igjt.statique.modules.SiteBuilder;
 import ch.heigvd.igjt.statique.modules.TemplateEngine;
 import org.apache.commons.io.FilenameUtils;
