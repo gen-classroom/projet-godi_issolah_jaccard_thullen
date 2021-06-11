@@ -32,7 +32,7 @@ public class SiteBuilder
         ContentFileProcessor cfp = new ContentFileProcessor();
         SiteConfig siteConfig = cfp.getSiteConfigFromYaml(configFile);
         try{
-            templateEngine = new TemplateEngine(siteConfig, rootFolder.getPath() + "/template/");
+            templateEngine = new TemplateEngine(siteConfig, rootFolder.getPath() + "template/");
         }catch (Exception e){
             System.out.println("template file not found");
             return;
@@ -76,7 +76,7 @@ public class SiteBuilder
 
                 String content = templateEngine.build(htmlContent,articleHeader);
 
-                File newFile = new File(buildFolder.getPath() + "/" + FilenameUtils.removeExtension(file.getName()) + ".html");
+                File newFile = new File(buildFolder.getPath() + FilenameUtils.removeExtension(file.getPath()) + ".html");
                 if (!newFile.exists()) {
 
                     newFile.createNewFile();
@@ -107,7 +107,7 @@ public class SiteBuilder
      */
     public static void copyToBuild(File buildFolder, File file) throws IOException {
         if(file.getName().equals("config.yaml")) return;
-        File newFile = new File(buildFolder.getPath() + "/" +  file.getName());
+        File newFile = new File(buildFolder.getPath() + file.getPath());
         if (!newFile.exists()) {
             Files.copy(file.toPath(),newFile.toPath());
 
