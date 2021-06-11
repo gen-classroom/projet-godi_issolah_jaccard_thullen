@@ -108,15 +108,15 @@ public class BuildTest {
 
         boolean test = true;
 
-        if(!new File(rootDirectory + "build/" + rootDirectory + "content/page.html").exists())
+        if(!new File(rootDirectory + "build/" + "content/page.html").exists())
         {
             test = false;
         }
-        if(!new File(rootDirectory + "build/" + rootDirectory + "index.html").exists())
+        if(!new File(rootDirectory + "build/" + "index.html").exists())
         {
             test = false;
         }
-        if(!new File(rootDirectory + "build/" + rootDirectory + "content/image.png").exists())
+        if(!new File(rootDirectory + "build/" + "content/image.png").exists())
         {
             test = false;
         }
