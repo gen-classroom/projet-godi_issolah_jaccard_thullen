@@ -31,6 +31,7 @@ public class SubCommandBuild implements Callable<Integer> {
         SiteBuilder.buildAll(sourceFile);
         if (autoRebuild) {
             FileWatcher fw = new FileWatcher(path);
+            fw.start();
             System.out.println("Watchdog initialized for path " + path + "\nPress Enter to terminate...");
             Scanner scan = new Scanner(System.in);
             scan.nextLine();

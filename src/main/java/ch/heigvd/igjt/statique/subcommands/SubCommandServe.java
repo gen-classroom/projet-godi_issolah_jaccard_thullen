@@ -45,6 +45,7 @@ public class SubCommandServe implements Callable<Integer> {
         if(autoRebuild)
         {
             fw = new FileWatcher(path);
+            fw.start();
             System.out.println("Watchdog initialized for path " + path + "\n");
         }
         System.out.println("Server was launched: " + defaultHostname + ":" + defaultPort + "\n Root folder: " + projectFolder + "\n Press Enter to terminate...");

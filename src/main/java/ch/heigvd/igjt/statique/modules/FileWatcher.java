@@ -1,5 +1,7 @@
 package ch.heigvd.igjt.statique.modules;
 
+import ch.heigvd.igjt.statique.data.SiteConfig;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
@@ -12,12 +14,20 @@ import static java.nio.file.StandardWatchEventKinds.*;
  */
 public class FileWatcher {
 
-    String watchPath;
-    ContentFileProcessor processor;
+    String watchPathString;
+    Path watchPath;
+    SiteConfig siteConfig;
+    ContentFileProcessor contentFileProcessor;
+    TemplateEngine templateEngine;
 
-    public FileWatcher(String watchPath) {
-        this.watchPath = watchPath;
-        this.processor = new ContentFileProcessor();
+    public FileWatcher(String watchPathString) {
+        this.watchPathString = watchPathString;
+        this.watchPath = Paths.get(watchPathString);
+        File configFile = new File(watchPathString + "/config.yaml");
+        this.contentFileProcessor = new ContentFileProcessor();
+        this.siteConfig = this.contentFileProcessor.getSiteConfigFromYaml(configFile);
+        this.templateEngine = new TemplateEngine(siteConfig, watchPathString + "/template");
+        this.contentFileProcessor = new ContentFileProcessor();
     }
 
     /**
@@ -27,7 +37,7 @@ public class FileWatcher {
      */
     public void start() throws IOException, InterruptedException {
         WatchService watchService = FileSystems.getDefault().newWatchService();
-        Path path = Paths.get(watchPath);
+        Path path = Paths.get(watchPathString);
         path.register(watchService, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);
         WatchKey key;
         while((key = watchService.take()) != null) {
@@ -43,10 +53,11 @@ public class FileWatcher {
      * Process the given file change notification event
      * @param event the file change event to process
      */
-    private void processEvent(WatchEvent<?> event) {
+    private void processEvent(WatchEvent<?> event) throws IOException {
         WatchEvent.Kind<?> kind = event.kind();
         Path eventPath = (Path) event.context();
         Path eventPathParent = eventPath;
+        File eventFile = eventPath.toFile();
         int depth = eventPath.getNameCount();
         // ./build/a/b/C.java --> getNameCount = 4
         for (int i = 0; i < depth-1; i++) {
@@ -56,13 +67,13 @@ public class FileWatcher {
         if (!eventPathParent.endsWith("build")) {
             if (kind == ENTRY_CREATE) {
                 // process new file; skeleton
-                SiteBuilder.buildFile(eventPath);
+                SiteBuilder.buildFile(eventPathParent.toFile(), eventFile, templateEngine, contentFileProcessor);
             } else if (kind == ENTRY_DELETE) {
                 // process deleted file
-                SiteBuilder.delete(eventPath);
+                SiteBuilder.recursiveDelete(eventFile);
             } else if (kind == ENTRY_MODIFY) {
                 // process modified file
-                SiteBuilder.build(eventPath);
+                SiteBuilder.buildFile(eventPathParent.toFile(), eventFile, templateEngine, contentFileProcessor);
             }
         }
     }
