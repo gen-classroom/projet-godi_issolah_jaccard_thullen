@@ -9,8 +9,9 @@ import java.nio.file.*;
 import static java.nio.file.StandardWatchEventKinds.*;
 
 /**
+ * Watches a given directory for file changes
+ *
  * @author Basile Thullen
- * Watch a given directory for file changes
  */
 public class FileWatcher {
 
@@ -20,6 +21,11 @@ public class FileWatcher {
     ContentFileProcessor contentFileProcessor;
     TemplateEngine templateEngine;
 
+    /**
+     * The constructor to the FileWatcher class
+     * @param watchPathString the path on which to watch for changes.
+     *                        Must be the root directory of the site
+     */
     public FileWatcher(String watchPathString) {
         this.watchPathString = watchPathString;
         this.watchPath = Paths.get(watchPathString);
@@ -66,7 +72,7 @@ public class FileWatcher {
         // ./build
         if (!eventPathParent.endsWith("build")) {
             if (kind == ENTRY_CREATE) {
-                // process new file; skeleton
+                // process new file
                 SiteBuilder.buildFile(eventPathParent.toFile(), eventFile, templateEngine, contentFileProcessor);
             } else if (kind == ENTRY_DELETE) {
                 // process deleted file
